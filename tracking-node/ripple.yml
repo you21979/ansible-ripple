@@ -1,0 +1,12 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+    - name: yum install
+      yum: name="{{ item }}" state=present
+      with_items:
+        - https://mirrors.ripple.com/ripple-repo-el7.rpm
+    - name: yum install
+      yum: name="{{ item }}" state=present
+      with_items:
+        - rippled
