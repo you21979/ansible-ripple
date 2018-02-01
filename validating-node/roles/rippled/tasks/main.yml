@@ -1,0 +1,11 @@
+---
+- name: yum add repos
+  yum: name="{{ item }}" state=present
+  with_items:
+    - epel-release
+    - https://mirrors.ripple.com/ripple-repo-el7.rpm
+- name: yum install
+  yum: name="{{ item }}" state=present enablerepo=ripple-stable
+  with_items:
+    - rippled
+    - jq

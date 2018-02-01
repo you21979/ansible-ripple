@@ -1,0 +1,13 @@
+---
+- hosts: all
+  sudo: yes
+  roles:
+    - rippled
+    - sslgen
+  vars:
+    - ws_port: 9999
+  tasks:
+    - name: ripple config
+      template: src="templates/rippled.cfg.j2" dest="/opt/ripple/etc/rippled.cfg" owner=rippled group=rippled
+    - name: fd limit
+      template: src="templates/limits.conf.j2" dest="/etc/security/limits.conf" owner=root group=root
