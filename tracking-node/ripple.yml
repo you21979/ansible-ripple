@@ -1,12 +1,16 @@
 ---
 - hosts: all
   sudo: yes
+  roles:
+    - rippled
+    - sslgen
+  vars:
+    - ws_port: 9999
+    - node_size: tiny
+    - ledger_size_min: 1000
+    - ledger_size_max: 2000
   tasks:
-    - name: yum install
-      yum: name="{{ item }}" state=present
-      with_items:
-        - https://mirrors.ripple.com/ripple-repo-el7.rpm
-    - name: yum install
-      yum: name="{{ item }}" state=present
-      with_items:
-        - rippled
+    - name: ripple config
+      template: src="templates/rippled.cfg.j2" dest="/opt/ripple/etc/rippled.cfg" owner=rippled group=rippled
+    - name: fd limit
+      template: src="templates/limits.conf.j2" dest="/etc/security/limits.conf" owner=root group=root
